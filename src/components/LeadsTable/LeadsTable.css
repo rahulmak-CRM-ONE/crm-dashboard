@@ -1,0 +1,41 @@
+.table-card {
+  background: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  margin-top: 24px;
+  overflow: hidden;
+}
+
+.table-header {
+  padding: 16px 20px;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.crm-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.crm-table th {
+  text-align: left;
+  background: #f8fafc;
+  padding: 14px;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.crm-table td {
+  padding: 14px;
+  border-top: 1px solid #f1f5f9;
+}
+
+.crm-table tr:hover {
+  background: #f8fafc;
+}
+
+.pagination {
+  padding: 16px 20px;
+  border-top: 1px solid #e5e7eb;
+  color: #64748b;
+  font-size: 14px;
+}

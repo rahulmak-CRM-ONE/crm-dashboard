@@ -1,0 +1,101 @@
+.sidebar {
+  width: 280px;
+  min-height: 100vh;
+  background: #0f172a;
+  color: white;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  padding: 24px 16px;
+}
+
+.sidebar-logo {
+  font-size: 22px;
+  font-weight: 700;
+  margin-bottom: 40px;
+}
+
+.menu-section {
+  margin-bottom: 32px;
+}
+
+.menu-title {
+  display: block;
+  font-size: 11px;
+  color: #94a3b8;
+  letter-spacing: 1px;
+  margin-bottom: 12px;
+}
+
+.menu-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  padding: 12px;
+  border-radius: 10px;
+
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.menu-item:hover {
+  background: #1e293b;
+}
+
+.menu-item.active {
+  background: #2563eb;
+}
+
+.sidebar-footer {
+  border-top: 1px solid #1e293b;
+  padding-top: 20px;
+}
+
+.user-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  margin-bottom: 20px;
+}
+
+.user-avatar {
+  width: 40px;
+  height: 40px;
+
+  border-radius: 50%;
+
+  background: #2563eb;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-weight: bold;
+}
+
+.user-name {
+  font-weight: 600;
+}
+
+.user-role {
+  font-size: 13px;
+  color: #94a3b8;
+}
+
+.logout-btn {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  cursor: pointer;
+  padding: 12px;
+  border-radius: 10px;
+}
+
+.logout-btn:hover {
+  background: #1e293b;
+}
