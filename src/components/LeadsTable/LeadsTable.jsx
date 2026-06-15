@@ -1,39 +1,10 @@
 import "./LeadsTable.css";
 
-function LeadsTable() {
-  const leads = [
-    {
-      customer: "Ram Sharma",
-      company: "Nirisha Ventures",
-      industry: "Lubricants",
-      status: "New",
-      stage: "Prospecting",
-      value: "₹0",
-      owner: "Parth",
-      source: "Website",
-    },
-    {
-      customer: "Vijay Patel",
-      company: "Shree Industries",
-      industry: "Manufacturing",
-      status: "Contacted",
-      stage: "Qualified",
-      value: "₹25,000",
-      owner: "Maharshi",
-      source: "Referral",
-    },
-    {
-      customer: "Amit Singh",
-      company: "ABC Traders",
-      industry: "Retail",
-      status: "Follow-up",
-      stage: "Proposal",
-      value: "₹75,000",
-      owner: "Unassigned",
-      source: "LinkedIn",
-    },
-  ];
-
+function LeadsTable({
+  leads,
+  onDeleteLead,
+  onEditLead,
+}) {
   return (
     <div className="table-card">
       <div className="table-header">
@@ -51,6 +22,7 @@ function LeadsTable() {
             <th>Value</th>
             <th>Owner</th>
             <th>Source</th>
+            <th>Actions</th>
           </tr>
         </thead>
 
@@ -65,13 +37,50 @@ function LeadsTable() {
               <td>{lead.value}</td>
               <td>{lead.owner}</td>
               <td>{lead.source}</td>
+
+              <td>
+                <div
+                  style={{
+                    display: "flex",
+                    gap: "8px",
+                  }}
+                >
+                  <button
+                    onClick={() => onEditLead(index)}
+                    style={{
+                      background: "#2563eb",
+                      color: "#fff",
+                      border: "none",
+                      padding: "6px 10px",
+                      borderRadius: "6px",
+                      cursor: "pointer",
+                    }}
+                  >
+                    Edit
+                  </button>
+
+                  <button
+                    onClick={() => onDeleteLead(index)}
+                    style={{
+                      background: "#ef4444",
+                      color: "#fff",
+                      border: "none",
+                      padding: "6px 10px",
+                      borderRadius: "6px",
+                      cursor: "pointer",
+                    }}
+                  >
+                    Delete
+                  </button>
+                </div>
+              </td>
             </tr>
           ))}
         </tbody>
       </table>
 
       <div className="pagination">
-        Showing 1–3 of 3 leads
+        Showing {leads.length} lead(s)
       </div>
     </div>
   );

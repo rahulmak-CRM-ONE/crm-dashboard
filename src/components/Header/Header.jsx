@@ -1,11 +1,25 @@
 import "./Header.css";
 import { FiSearch, FiBell } from "react-icons/fi";
+import { useLocation } from "react-router-dom";
 
 function Header() {
+  const location = useLocation();
+
+  const pageTitles = {
+    "/": "Dashboard",
+    "/dashboard": "Dashboard",
+    "/leads": "Leads",
+    "/followups": "Follow-ups",
+    "/sales-funnel": "Sales Funnel",
+  };
+
+  const currentTitle =
+    pageTitles[location.pathname] || "CRM";
+
   return (
     <header className="header">
       <div className="header-left">
-        <h1>Dashboard</h1>
+        <h1>{currentTitle}</h1>
       </div>
 
       <div className="header-right">
