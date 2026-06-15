@@ -99,3 +99,13 @@
 .logout-btn:hover {
   background: #1e293b;
 }
+
+.menu-item {
+  text-decoration: none;
+  color: white;
+}
+
+.menu-item.active {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+}

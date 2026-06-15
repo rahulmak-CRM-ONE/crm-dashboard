@@ -1,4 +1,5 @@
 import "./Sidebar.css";
+import { NavLink } from "react-router-dom";
 
 import {
   FiGrid,
@@ -20,29 +21,49 @@ function Sidebar() {
         <div className="menu-section">
           <span className="menu-title">OVERVIEW</span>
 
-          <div className="menu-item active">
+          <NavLink
+            to="/dashboard"
+            className={({ isActive }) =>
+              isActive ? "menu-item active" : "menu-item"
+            }
+          >
             <FiGrid />
             <span>Dashboard</span>
-          </div>
+          </NavLink>
         </div>
 
         <div className="menu-section">
           <span className="menu-title">SALES</span>
 
-          <div className="menu-item">
+          <NavLink
+            to="/leads"
+            className={({ isActive }) =>
+              isActive ? "menu-item active" : "menu-item"
+            }
+          >
             <FiUsers />
             <span>Leads</span>
-          </div>
+          </NavLink>
 
-          <div className="menu-item">
+          <NavLink
+            to="/followups"
+            className={({ isActive }) =>
+              isActive ? "menu-item active" : "menu-item"
+            }
+          >
             <FiCalendar />
             <span>Follow-ups</span>
-          </div>
+          </NavLink>
 
-          <div className="menu-item">
+          <NavLink
+            to="/sales-funnel"
+            className={({ isActive }) =>
+              isActive ? "menu-item active" : "menu-item"
+            }
+          >
             <FiTrendingUp />
             <span>Sales Funnel</span>
-          </div>
+          </NavLink>
         </div>
 
         <div className="menu-section">
