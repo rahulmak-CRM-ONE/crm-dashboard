@@ -43,6 +43,10 @@ function Leads() {
   const [editingLead, setEditingLead] = useState(null);
   const [editingIndex, setEditingIndex] = useState(null);
 
+  const [searchTerm, setSearchTerm] = useState("");
+
+  const [statusFilter, setStatusFilter] = useState("All");
+
   const [leads, setLeads] = useState(() => {
     const savedLeads = localStorage.getItem("crm-leads");
 
@@ -90,6 +94,21 @@ function Leads() {
     setShowModal(true);
   };
 
+  const filteredLeads = leads.filter((lead) => {
+    const search = searchTerm.toLowerCase();
+
+    const matchesSearch =
+      lead.customer?.toLowerCase().includes(search) ||
+      lead.company?.toLowerCase().includes(search) ||
+      lead.email?.toLowerCase().includes(search);
+
+    const matchesStatus =
+      statusFilter === "All" ||
+      lead.status === statusFilter;
+
+    return matchesSearch && matchesStatus;
+  });
+
   return (
     <>
       <div
@@ -121,10 +140,15 @@ function Leads() {
         </button>
       </div>
 
-      <FilterBar />
+      <FilterBar
+        searchTerm={searchTerm}
+        setSearchTerm={setSearchTerm}
+        statusFilter={statusFilter}
+        setStatusFilter={setStatusFilter}
+      />
 
       <LeadsTable
-        leads={leads}
+        leads={filteredLeads}
         onDeleteLead={handleDeleteLead}
         onEditLead={handleEditLead}
       />

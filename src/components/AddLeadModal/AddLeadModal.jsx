@@ -60,6 +60,7 @@ function AddLeadModal({
       source: editingLead?.source || "Manual Entry",
       phone: formData.phone,
       email: formData.email,
+      createdAt: new Date().toISOString(),
     };
 
     if (editingLead) {
