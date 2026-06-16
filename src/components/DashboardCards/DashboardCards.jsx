@@ -1,36 +1,64 @@
 import "./DashboardCards.css";
 
 function DashboardCards() {
+  const leads =
+    JSON.parse(localStorage.getItem("crm-leads")) || [];
+
+  const totalLeads = leads.length;
+
+  const newLeads = leads.filter(
+    (lead) => lead.status === "New"
+  ).length;
+
+  const contactedLeads = leads.filter(
+    (lead) => lead.status === "Contacted"
+  ).length;
+
+  const qualifiedLeads = leads.filter(
+    (lead) => lead.status === "Qualified"
+  ).length;
+
   const cards = [
     {
       title: "TOTAL LEADS",
-      value: "229",
-      subtext: "165 assigned",
+      value: totalLeads,
+      subtext: "all leads",
     },
     {
-      title: "UNASSIGNED",
-      value: "64",
-      subtext: "awaiting owner",
+      title: "NEW LEADS",
+      value: newLeads,
+      subtext: "awaiting action",
     },
     {
-      title: "CONVERTED",
-      value: "1",
-      subtext: "closed-won",
+      title: "CONTACTED",
+      value: contactedLeads,
+      subtext: "follow-up stage",
     },
     {
-      title: "ADDED THIS MONTH",
-      value: "19",
-      subtext: "new pipeline",
+      title: "QUALIFIED",
+      value: qualifiedLeads,
+      subtext: "sales ready",
     },
   ];
 
   return (
     <div className="cards-grid">
       {cards.map((card, index) => (
-        <div className="dashboard-card" key={index}>
-          <div className="card-title">{card.title}</div>
-          <div className="card-value">{card.value}</div>
-          <div className="card-subtext">{card.subtext}</div>
+        <div
+          className="dashboard-card"
+          key={index}
+        >
+          <div className="card-title">
+            {card.title}
+          </div>
+
+          <div className="card-value">
+            {card.value}
+          </div>
+
+          <div className="card-subtext">
+            {card.subtext}
+          </div>
         </div>
       ))}
     </div>
