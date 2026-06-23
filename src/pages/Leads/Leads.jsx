@@ -5,36 +5,7 @@ import LeadsTable from "../../components/LeadsTable/LeadsTable";
 import AddLeadModal from "../../components/AddLeadModal/AddLeadModal";
 
 const defaultLeads = [
-  {
-    customer: "Ram Sharma",
-    company: "Nirisha Ventures",
-    industry: "Lubricants",
-    status: "New",
-    stage: "Prospecting",
-    value: "₹0",
-    owner: "Parth",
-    source: "Website",
-  },
-  {
-    customer: "Vijay Patel",
-    company: "Shree Industries",
-    industry: "Manufacturing",
-    status: "Contacted",
-    stage: "Qualified",
-    value: "₹25,000",
-    owner: "Maharshi",
-    source: "Referral",
-  },
-  {
-    customer: "Amit Singh",
-    company: "ABC Traders",
-    industry: "Retail",
-    status: "Follow-up",
-    stage: "Proposal",
-    value: "₹75,000",
-    owner: "Unassigned",
-    source: "LinkedIn",
-  },
+  
 ];
 
 function Leads() {
@@ -47,22 +18,19 @@ function Leads() {
 
   const [statusFilter, setStatusFilter] = useState("All");
 
-  const [leads, setLeads] = useState(() => {
-    const savedLeads = localStorage.getItem("crm-leads");
+  
+const [leads, setLeads] = useState([]);
 
-    if (savedLeads) {
-      return JSON.parse(savedLeads);
-    }
-
-    return defaultLeads;
-  });
-
-  useEffect(() => {
-    localStorage.setItem(
-      "crm-leads",
-      JSON.stringify(leads)
-    );
-  }, [leads]);
+useEffect(() => {
+  fetch("http://localhost:5000/api/leads")
+    .then((response) => response.json())
+    .then((data) => {
+      setLeads(data);
+    })
+    .catch((error) => {
+      console.error("Error fetching leads:", error);
+    });
+}, []);
 
   const handleAddLead = (newLead) => {
     setLeads((prevLeads) => [newLead, ...prevLeads]);
@@ -80,13 +48,24 @@ function Leads() {
     setShowModal(false);
   };
 
-  const handleDeleteLead = (indexToDelete) => {
-    const updatedLeads = leads.filter(
-      (_, index) => index !== indexToDelete
+  const handleDeleteLead = async (leadId) => {
+  try {
+    await fetch(
+      `http://localhost:5000/api/leads/${leadId}`,
+      {
+        method: "DELETE",
+      }
     );
 
-    setLeads(updatedLeads);
-  };
+    setLeads((prevLeads) =>
+      prevLeads.filter(
+        (lead) => lead.id !== leadId
+      )
+    );
+  } catch (error) {
+    console.error(error);
+  }
+};
 
   const handleEditLead = (index) => {
     setEditingLead(leads[index]);

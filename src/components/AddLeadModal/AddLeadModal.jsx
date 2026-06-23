@@ -48,38 +48,60 @@ function AddLeadModal({
     });
   };
 
-  const handleSave = () => {
-    const leadData = {
-      customer: formData.customer,
-      company: formData.company,
-      industry: formData.industry,
-      status: formData.status,
-      stage: editingLead?.stage || "Prospecting",
-      value: editingLead?.value || "₹0",
-      owner: editingLead?.owner || "Unassigned",
-      source: editingLead?.source || "Manual Entry",
-      phone: formData.phone,
-      email: formData.email,
-      createdAt: new Date().toISOString(),
-    };
+ const handleSave = async () => {
+  const leadData = {
+    customer: formData.customer,
+    company: formData.company,
+    industry: formData.industry,
+    status: formData.status,
+    stage: editingLead?.stage || "Prospecting",
+    value: editingLead?.value || "₹0",
+    owner: editingLead?.owner || "Unassigned",
+    source: editingLead?.source || "Manual Entry",
+    phone: formData.phone,
+    email: formData.email,
+  };
 
+  try {
     if (editingLead) {
       onUpdateLead(leadData);
-    } else {
-      onAddLead(leadData);
-
-      setFormData({
-        customer: "",
-        company: "",
-        industry: "",
-        phone: "",
-        email: "",
-        status: "New",
-      });
-
-      onClose();
+      return;
     }
-  };
+
+    const response = await fetch(
+      "http://localhost:5000/api/leads",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(leadData),
+      }
+    );
+
+    const data = await response.json();
+
+    console.log("Lead Saved:", data);
+
+    onAddLead({
+      ...leadData,
+      id: data.id,
+    });
+
+    setFormData({
+      customer: "",
+      company: "",
+      industry: "",
+      phone: "",
+      email: "",
+      status: "New",
+    });
+
+    onClose();
+  } catch (error) {
+    console.error("Error saving lead:", error);
+  }
+};
 
   return (
     <div className="modal-overlay">
