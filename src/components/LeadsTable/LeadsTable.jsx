@@ -60,7 +60,7 @@ function LeadsTable({
                   </button>
 
                   <button
-                    onClick={() => onDeleteLead(index)}
+                    onClick={() => onDeleteLead(lead.id)}
                     style={{
                       background: "#ef4444",
                       color: "#fff",

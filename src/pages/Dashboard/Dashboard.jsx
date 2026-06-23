@@ -1,5 +1,6 @@
 import DashboardCards from "../../components/DashboardCards/DashboardCards";
 import DashboardCharts from "../../components/DashboardCharts/DashboardCharts";
+import MonthlyTrendChart from "../../components/MonthlyTrendChart/MonthlyTrendChart";
 import RecentLeads from "../../components/RecentLeads/RecentLeads";
 
 function Dashboard() {
@@ -7,6 +8,7 @@ function Dashboard() {
     <>
       <DashboardCards />
       <DashboardCharts />
+      <MonthlyTrendChart />
       <RecentLeads />
     </>
   );
