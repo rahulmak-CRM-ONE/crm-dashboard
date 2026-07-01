@@ -1,0 +1,127 @@
+.app-layout {
+  display: flex;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #f8fafc 0%, #eef4ff 100%);
+  overflow: hidden;
+}
+
+@media (max-width: 900px) {
+  .app-layout {
+    position: relative;
+  }
+}
+
+.main-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  background: linear-gradient(135deg, rgba(248, 250, 252, 0.96), rgba(238, 244, 255, 0.96));
+  position: relative;
+  overflow: auto;
+  min-width: 0;
+}
+
+.main-content::before {
+  content: "";
+  position: absolute;
+  inset: -20% auto auto -10%;
+  width: 320px;
+  height: 320px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(37, 99, 235, 0.16), transparent 70%);
+  animation: floatSoft 8s ease-in-out infinite;
+  pointer-events: none;
+}
+
+.main-content::after {
+  content: "";
+  position: absolute;
+  right: -5%;
+  bottom: -10%;
+  width: 280px;
+  height: 280px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(16, 185, 129, 0.16), transparent 70%);
+  animation: floatSoft 10s ease-in-out infinite reverse;
+  pointer-events: none;
+}
+
+.page-content {
+  flex: 1;
+  padding: 32px;
+  position: relative;
+  z-index: 1;
+  overflow-x: hidden;
+  animation: fadeInUp 0.7s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+
+@media (max-width: 900px) {
+  .page-content {
+    padding: 20px;
+  }
+}
+
+@media (max-width: 640px) {
+  .page-content {
+    padding: 14px;
+  }
+}
+
+.page-content > * {
+  animation: fadeInUp 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+
+.page-content > *:nth-child(2) {
+  animation-delay: 0.08s;
+}
+
+.page-content > *:nth-child(3) {
+  animation-delay: 0.16s;
+}
+
+.page-content > *:nth-child(4) {
+  animation-delay: 0.24s;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes floatSoft {
+  0%,
+  100% {
+    transform: translateY(0px) scale(1);
+  }
+  50% {
+    transform: translateY(-14px) scale(1.04);
+  }
+}
