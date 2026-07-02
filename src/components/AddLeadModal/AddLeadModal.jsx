@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import "./AddLeadModal.css";
+import { API } from "../../config";
 
 function AddLeadModal({
   isOpen,
@@ -48,76 +49,75 @@ function AddLeadModal({
     });
   };
 
- const handleSave = async () => {
-  const leadData = {
-    customer: formData.customer,
-    company: formData.company,
-    industry: formData.industry,
-    status: formData.status,
-    stage: editingLead?.stage || "Prospecting",
-    value: editingLead?.value || "₹0",
-    owner: editingLead?.owner || "Unassigned",
-    source: editingLead?.source || "Manual Entry",
-    phone: formData.phone,
-    email: formData.email,
-  };
+  const handleSave = async () => {
+    const leadData = {
+      customer: formData.customer,
+      company: formData.company,
+      industry: formData.industry,
+      status: formData.status,
+      stage: editingLead?.stage || "Prospecting",
+      value: editingLead?.value || "₹0",
+      owner: editingLead?.owner || "Unassigned",
+      source: editingLead?.source || "Manual Entry",
+      phone: formData.phone,
+      email: formData.email,
+    };
 
-  try {
-    if (editingLead) {
-      const success = await onUpdateLead({
-        ...leadData,
-        id: editingLead.id,
-      });
+    try {
+      if (editingLead) {
+        const success = await onUpdateLead({
+          ...leadData,
+          id: editingLead.id,
+        });
 
-      if (success) {
-        onClose();
+        if (success) {
+          onClose();
+        }
+
+        return;
       }
-      return;
-    }
 
-    const response = await fetch(
-      "http://localhost:5000/api/leads",
-      {
+      const response = await fetch(`${API}/api/leads`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(leadData),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to save lead");
       }
-    );
 
-    const data = await response.json();
+      const data = await response.json();
 
-    console.log("Lead Saved:", data);
+      console.log("Lead Saved:", data);
 
-    onAddLead({
-      ...leadData,
-      id: data.id,
-    });
+      onAddLead({
+        ...leadData,
+        id: data.id,
+      });
 
-    setFormData({
-      customer: "",
-      company: "",
-      industry: "",
-      phone: "",
-      email: "",
-      status: "New",
-    });
+      setFormData({
+        customer: "",
+        company: "",
+        industry: "",
+        phone: "",
+        email: "",
+        status: "New",
+      });
 
-    onClose();
-  } catch (error) {
-    console.error("Error saving lead:", error);
-  }
-};
+      onClose();
+    } catch (error) {
+      console.error("Error saving lead:", error);
+      alert("Unable to save lead. Please try again.");
+    }
+  };
 
   return (
     <div className="modal-overlay">
       <div className="modal-box">
-        <h2>
-          {editingLead
-            ? "Edit Lead"
-            : "Add New Lead"}
-        </h2>
+        <h2>{editingLead ? "Edit Lead" : "Add New Lead"}</h2>
 
         <div className="form-group">
           <label>Customer Name</label>
@@ -195,9 +195,7 @@ function AddLeadModal({
             className="save-btn"
             onClick={handleSave}
           >
-            {editingLead
-              ? "Update Lead"
-              : "Save Lead"}
+            {editingLead ? "Update Lead" : "Save Lead"}
           </button>
         </div>
       </div>

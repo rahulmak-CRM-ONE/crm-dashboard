@@ -4,6 +4,7 @@ import FilterBar from "../../components/FilterBar/FilterBar";
 import LeadsTable from "../../components/LeadsTable/LeadsTable";
 import AddLeadModal from "../../components/AddLeadModal/AddLeadModal";
 import { updateLeadById } from "../../utils/leadUtils";
+import { API } from "../../config";
 
 function Leads() {
   const [showModal, setShowModal] = useState(false);
@@ -14,7 +15,7 @@ function Leads() {
   const [leads, setLeads] = useState([]);
 
   useEffect(() => {
-    fetch("http://localhost:5000/api/leads")
+    fetch(`${API}/api/leads`)
       .then((response) => response.json())
       .then((data) => {
         setLeads(data);
@@ -31,7 +32,7 @@ function Leads() {
   const handleUpdateLead = async (updatedLead) => {
     try {
       const response = await fetch(
-        `http://localhost:5000/api/leads/${updatedLead.id}`,
+        `${API}/api/leads/${updatedLead.id}`,
         {
           method: "PUT",
           headers: {
@@ -45,9 +46,13 @@ function Leads() {
         throw new Error("Failed to update lead");
       }
 
-      setLeads((prevLeads) => updateLeadById(prevLeads, updatedLead.id, updatedLead));
+      setLeads((prevLeads) =>
+        updateLeadById(prevLeads, updatedLead.id, updatedLead)
+      );
+
       setEditingLead(null);
       setShowModal(false);
+
       return true;
     } catch (error) {
       console.error("Error updating lead:", error);
@@ -56,23 +61,25 @@ function Leads() {
   };
 
   const handleDeleteLead = async (leadId) => {
-  try {
-    await fetch(
-      `http://localhost:5000/api/leads/${leadId}`,
-      {
-        method: "DELETE",
-      }
-    );
+    try {
+      const response = await fetch(
+        `${API}/api/leads/${leadId}`,
+        {
+          method: "DELETE",
+        }
+      );
 
-    setLeads((prevLeads) =>
-      prevLeads.filter(
-        (lead) => lead.id !== leadId
-      )
-    );
-  } catch (error) {
-    console.error(error);
-  }
-};
+      if (!response.ok) {
+        throw new Error("Failed to delete lead");
+      }
+
+      setLeads((prevLeads) =>
+        prevLeads.filter((lead) => lead.id !== leadId)
+      );
+    } catch (error) {
+      console.error("Error deleting lead:", error);
+    }
+  };
 
   const handleEditLead = (lead) => {
     setEditingLead(lead);
