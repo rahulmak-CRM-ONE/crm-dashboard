@@ -17,6 +17,7 @@ function AddLeadModal({
     email: "",
     status: "New",
   });
+  const [saveError, setSaveError] = useState("");
 
   useEffect(() => {
     if (editingLead) {
@@ -50,6 +51,8 @@ function AddLeadModal({
   };
 
   const handleSave = async () => {
+    setSaveError("");
+
     const leadData = {
       customer: formData.customer,
       company: formData.company,
@@ -86,7 +89,8 @@ function AddLeadModal({
       });
 
       if (!response.ok) {
-        throw new Error("Failed to save lead");
+        const errorText = await response.text();
+        throw new Error(errorText || "Failed to save lead");
       }
 
       const data = await response.json();
@@ -110,7 +114,9 @@ function AddLeadModal({
       onClose();
     } catch (error) {
       console.error("Error saving lead:", error);
-      alert("Unable to save lead. Please try again.");
+      setSaveError(
+        error.message || "Unable to save lead. Please try again."
+      );
     }
   };
 
@@ -182,6 +188,12 @@ function AddLeadModal({
             <option>Qualified</option>
           </select>
         </div>
+
+        {saveError && (
+          <p style={{ color: "#dc2626", marginBottom: "12px" }}>
+            {saveError}
+          </p>
+        )}
 
         <div className="modal-actions">
           <button
