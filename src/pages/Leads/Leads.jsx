@@ -13,16 +13,53 @@ function Leads() {
   const [searchTerm, setSearchTerm] = useState("");
   const [statusFilter, setStatusFilter] = useState("All");
   const [leads, setLeads] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [errorMessage, setErrorMessage] = useState("");
 
   useEffect(() => {
+    let isMounted = true;
+
+    setIsLoading(true);
+    setErrorMessage("");
+
     fetch(`${API}/api/leads`)
-      .then((response) => response.json())
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Failed to fetch leads");
+        }
+
+        return response.json();
+      })
       .then((data) => {
-        setLeads(data);
+        if (!isMounted) return;
+
+        const normalizedLeads = Array.isArray(data)
+          ? data
+          : Array.isArray(data?.leads)
+            ? data.leads
+            : [];
+
+        setLeads(normalizedLeads);
+        setErrorMessage(
+          normalizedLeads.length === 0 ? "No leads available right now." : ""
+        );
       })
       .catch((error) => {
+        if (!isMounted) return;
+
         console.error("Error fetching leads:", error);
+        setLeads([]);
+        setErrorMessage("Unable to load leads. Please try again later.");
+      })
+      .finally(() => {
+        if (isMounted) {
+          setIsLoading(false);
+        }
       });
+
+    return () => {
+      isMounted = false;
+    };
   }, []);
 
   const handleAddLead = (newLead) => {
@@ -131,18 +168,38 @@ function Leads() {
         </button>
       </div>
 
-      <FilterBar
-        searchTerm={searchTerm}
-        setSearchTerm={setSearchTerm}
-        statusFilter={statusFilter}
-        setStatusFilter={setStatusFilter}
-      />
+      {isLoading ? (
+        <p style={{ color: "#64748b", marginTop: "12px" }}>
+          Loading leads...
+        </p>
+      ) : errorMessage ? (
+        <p
+          style={{
+            color: "#dc2626",
+            marginTop: "12px",
+            background: "#fef2f2",
+            padding: "12px 16px",
+            borderRadius: "8px",
+          }}
+        >
+          {errorMessage}
+        </p>
+      ) : (
+        <>
+          <FilterBar
+            searchTerm={searchTerm}
+            setSearchTerm={setSearchTerm}
+            statusFilter={statusFilter}
+            setStatusFilter={setStatusFilter}
+          />
 
-      <LeadsTable
-        leads={filteredLeads}
-        onDeleteLead={handleDeleteLead}
-        onEditLead={handleEditLead}
-      />
+          <LeadsTable
+            leads={filteredLeads}
+            onDeleteLead={handleDeleteLead}
+            onEditLead={handleEditLead}
+          />
+        </>
+      )}
 
       <AddLeadModal
         isOpen={showModal}
