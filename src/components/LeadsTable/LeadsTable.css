@@ -1,0 +1,128 @@
+.table-card {
+background: white;
+border-radius: 18px;
+overflow-x: auto;
+
+box-shadow:
+0 4px 20px rgba(0, 0, 0, 0.05);
+
+margin-top: 24px;
+}
+
+.table-header {
+padding: 20px 24px;
+border-bottom: 1px solid #e5e7eb;
+}
+
+.table-header h3 {
+margin: 0;
+color: #0f172a;
+}
+
+.crm-table {
+width: 100%;
+border-collapse: collapse;
+min-width: 680px;
+}
+
+.crm-table th {
+background: #f8fafc;
+padding: 16px;
+text-align: left;
+
+font-size: 13px;
+font-weight: 700;
+
+color: #64748b;
+}
+
+.crm-table td {
+padding: 16px;
+border-top: 1px solid #f1f5f9;
+}
+
+.crm-table tbody tr {
+transition: 0.3s;
+}
+
+.crm-table tbody tr:hover {
+background: #f8fafc;
+}
+
+.status-badge {
+display: inline-block;
+
+background: #dbeafe;
+color: #1d4ed8;
+
+padding: 5px 10px;
+border-radius: 20px;
+
+font-size: 12px;
+font-weight: 600;
+}
+
+.action-buttons {
+display: flex;
+gap: 8px;
+}
+
+.edit-btn {
+background: #2563eb;
+color: white;
+
+border: none;
+border-radius: 8px;
+
+padding: 8px 14px;
+cursor: pointer;
+
+font-weight: 600;
+}
+
+.delete-btn {
+background: #ef4444;
+color: white;
+
+border: none;
+border-radius: 8px;
+
+padding: 8px 14px;
+cursor: pointer;
+
+font-weight: 600;
+}
+
+.pagination {
+padding: 18px 24px;
+
+border-top: 1px solid #e5e7eb;
+
+color: #64748b;
+font-size: 14px;
+}
+
+@media (max-width: 600px) {
+.table-header {
+padding: 16px;
+}
+
+.crm-table th,
+.crm-table td {
+padding: 12px 10px;
+font-size: 13px;
+}
+
+.action-buttons {
+flex-direction: column;
+}
+
+.edit-btn,
+.delete-btn {
+width: 100%;
+}
+
+.pagination {
+padding: 14px 16px;
+}
+}
